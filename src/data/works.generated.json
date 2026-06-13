@@ -907,5 +907,14 @@
     "thumbnail": "/static/img/works/107-komakyo-reimu.jpg",
     "nsfw": false,
     "hidden": false
+  },
+  {
+    "id": 107,
+    "title": "【リクエスト】 天使の子 (2枚)",
+    "category": "Original",
+    "image_path": "/static/img/works/108-flying-angel.webp",
+    "thumbnail": "/static/img/works/108-flying-angel.jpg",
+    "nsfw": false,
+    "hidden": false
   }
 ]

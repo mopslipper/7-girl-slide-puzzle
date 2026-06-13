@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "sync": "node scripts/sync-works.mjs",
-    "prebuild": "node scripts/sync-works.mjs",
+    "sync:local": "node scripts/sync-works-local.mjs",
+    "prebuild": "node scripts/sync-works-local.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest run"

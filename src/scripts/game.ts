@@ -125,8 +125,8 @@ function createState(images: PuzzleImage[]): GameState {
   };
 
   return {
-    size: 4,
-    board: createSolved(4),
+    size: 3,
+    board: createSolved(3),
     selectedImage,
     moves: 0,
     startedAt: null,
@@ -417,7 +417,7 @@ export function startSlidePuzzle(): void {
     });
   });
 
-  buttonsSetActive(sizeButtons, sizeButtons.find((button) => Number(button.dataset.size) === 4) ?? sizeButtons[0]);
+  buttonsSetActive(sizeButtons, sizeButtons.find((button) => Number(button.dataset.size) === 3) ?? sizeButtons[0]);
   render();
 
   shuffleButton.addEventListener('click', () => {

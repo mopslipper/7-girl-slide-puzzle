@@ -85,11 +85,16 @@ a {
   font-size: 0.75rem;
 }
 
-.hero h1,
-.picker-head h2 {
+.hero h1 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.4rem);
   line-height: 1.05;
+}
+
+.picker-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.2;
 }
 
 .lead {
@@ -127,21 +132,6 @@ a {
 .portfolio-link:focus-visible {
   outline: 2px solid var(--primary-deep);
   outline-offset: 2px;
-}
-
-.hero-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.hero-meta span,
-.picker-note {
-  color: var(--text-muted);
-  border: 1px solid rgba(44, 40, 55, 0.9);
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--radius-pill);
-  padding: 0.45rem 0.8rem;
 }
 
 .layout-grid {
@@ -313,11 +303,6 @@ a {
 
 .picker-head {
   align-items: end;
-}
-
-.picker-note {
-  margin: 0;
-  font-size: 0.9rem;
 }
 
 .picker-grid {

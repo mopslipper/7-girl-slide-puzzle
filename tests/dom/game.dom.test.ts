@@ -10,9 +10,9 @@ const pickerButtons = `
 function setUpDom(): void {
   document.body.innerHTML = `
     <main>
-      <button type="button" data-size="4" class="chip is-active">4×4</button>
+      <button type="button" data-size="3" class="chip is-active">3×3</button>
+      <button type="button" data-size="4" class="chip">4×4</button>
       <button type="button" data-size="5" class="chip">5×5</button>
-      <button type="button" data-size="6" class="chip">6×6</button>
       <button type="button" data-shuffle>Shuffle</button>
       <button type="button" data-toggle-preview>Preview</button>
       <button type="button" data-toggle-numbers>Numbers</button>
@@ -59,7 +59,7 @@ describe('slide puzzle DOM wiring', () => {
 
     expect(timerLabel?.textContent).toBe('00:00');
     expect(movesLabel?.textContent).toBe('0');
-    expect(board?.querySelectorAll('.tile')).toHaveLength(15);
+    expect(board?.querySelectorAll('.tile')).toHaveLength(8);
     expect(clearOverlay?.classList.contains('is-visible')).toBe(false);
 
     secondPickerButton.click();
@@ -68,7 +68,7 @@ describe('slide puzzle DOM wiring', () => {
     expect(movesLabel?.textContent).toBe('0');
     expect(timerLabel?.textContent).toBe('00:00');
     expect(clearOverlay?.classList.contains('is-visible')).toBe(false);
-    expect(board?.querySelectorAll('.tile')).toHaveLength(15);
+    expect(board?.querySelectorAll('.tile')).toHaveLength(8);
 
     sizeFiveButton?.click();
 
