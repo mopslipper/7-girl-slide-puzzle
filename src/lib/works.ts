@@ -27,13 +27,15 @@ function toCdnUrl(path: string): string {
 
 const rawWorks = worksJson as PortfolioWork[];
 
-export const works: PuzzleImage[] = rawWorks.map((work) => ({
-  id: work.id,
-  title: work.title ?? `Work ${work.id}`,
-  category: work.category ?? 'Original',
-  src: toCdnUrl(work.image_path ?? ''),
-  thumbnail: toCdnUrl(work.thumbnail ?? work.image_path ?? ''),
-}));
+export const works: PuzzleImage[] = rawWorks
+  .map((work) => ({
+    id: work.id,
+    title: work.title ?? `Work ${work.id}`,
+    category: work.category ?? 'Original',
+    src: toCdnUrl(work.image_path ?? ''),
+    thumbnail: toCdnUrl(work.thumbnail ?? work.image_path ?? ''),
+  }))
+  .sort((a, b) => b.id - a.id);
 
 if (works.length === 0) {
   throw new Error('works.generated.json is empty. Regenerate the manifest before building.');

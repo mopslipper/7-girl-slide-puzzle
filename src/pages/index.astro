@@ -10,9 +10,17 @@ import { works } from '../lib/works';
         <p class="eyebrow">mopslipper theme</p>
         <h1>Slide Puzzle</h1>
         <p class="lead">
-          ポートフォリオ作品を使って遊べるスライドパズル。4×4 / 5×5 / 6×6 の切替に対応し、
+          ポートフォリオ作品を使って遊べるスライドパズル。3×3 / 4×4 / 5×5 の切替に対応し、
           クリックとタップで気軽に遊べます。
         </p>
+        <a
+          class="portfolio-link"
+          href="https://mopslipper.github.io/mopslipper-Illustration-site/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          mopslipper - Portfolio of Illustrations
+        </a>
       </div>
       <div class="hero-meta">
         <span>Astro</span>
@@ -25,9 +33,9 @@ import { works } from '../lib/works';
       <article class="card board-card">
         <div class="toolbar">
           <div class="segmented" role="group" aria-label="盤面サイズ">
+            <button type="button" class="chip" data-size="3">3×3</button>
             <button type="button" class="chip is-active" data-size="4">4×4</button>
             <button type="button" class="chip" data-size="5">5×5</button>
-            <button type="button" class="chip" data-size="6">6×6</button>
           </div>
 
           <div class="toolbar-actions">
@@ -61,7 +69,9 @@ import { works } from '../lib/works';
             <div class="board-preview" data-preview aria-hidden="true"></div>
             <div class="board" data-board aria-label="スライドパズルの盤面"></div>
           </div>
+          <div class="confetti" data-confetti aria-hidden="true"></div>
           <div class="clear-overlay" data-clear aria-live="polite">
+            <span class="clear-badge">CLEAR!</span>
             <strong>クリア</strong>
             <span>手数 / 時間</span>
             <em data-clear-stats></em>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { canMove, createSolved, findBlank, isSolved, move, moveByDirection, shuffle } from '../src/lib/puzzle';
+import { canMove, createSolved, findBlank, isSolved, move, moveByDirection, shuffle, slideTo } from '../src/lib/puzzle';
 
 describe('puzzle logic', () => {
   it('creates a solved board', () => {
@@ -46,5 +46,20 @@ describe('puzzle logic', () => {
   it('moves a tile by arrow direction', () => {
     const board = [1, 2, 3, 4, 5, 6, 7, 0, 8];
     expect(moveByDirection(board, 3, 'right')).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 0]);
+  });
+
+  it('slides multiple tiles in a row toward the blank', () => {
+    const board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    expect(slideTo(board, 3, 2)).toEqual([1, 2, 0, 3, 4, 5, 6, 7, 8]);
+  });
+
+  it('slides multiple tiles in a column toward the blank', () => {
+    const board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    expect(slideTo(board, 3, 6)).toEqual([3, 1, 2, 6, 4, 5, 0, 7, 8]);
+  });
+
+  it('ignores tiles that are not aligned with the blank', () => {
+    const board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    expect(slideTo(board, 3, 4)).toEqual(board);
   });
 });

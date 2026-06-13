@@ -43,6 +43,42 @@ export function move(board: Board, size: number, index: number): Board {
   return swap(board, index, blank);
 }
 
+export function slideTo(board: Board, size: number, index: number): Board {
+  if (!isWithinBounds(index, size) || board[index] === 0) {
+    return board.slice();
+  }
+
+  const blank = findBlank(board);
+  const row = Math.floor(index / size);
+  const col = index % size;
+  const blankRow = Math.floor(blank / size);
+  const blankCol = blank % size;
+
+  let next = board.slice();
+
+  if (row === blankRow) {
+    const step = col > blankCol ? 1 : -1;
+    for (let current = blankCol; current !== col; current += step) {
+      const from = row * size + current + step;
+      const to = row * size + current;
+      [next[to], next[from]] = [next[from], next[to]];
+    }
+    return next;
+  }
+
+  if (col === blankCol) {
+    const step = row > blankRow ? 1 : -1;
+    for (let current = blankRow; current !== row; current += step) {
+      const from = (current + step) * size + col;
+      const to = current * size + col;
+      [next[to], next[from]] = [next[from], next[to]];
+    }
+    return next;
+  }
+
+  return next;
+}
+
 export function isSolved(board: Board): boolean {
   const solved = board.length;
   for (let index = 0; index < solved - 1; index += 1) {

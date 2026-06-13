@@ -1,10 +1,9 @@
 import {
-  canMove,
   createSolved,
   isSolved,
-  move,
   moveByDirection,
   shuffle,
+  slideTo,
   type Board,
   type Direction,
 } from '../lib/puzzle';
@@ -37,9 +36,41 @@ type Refs = {
   movesLabel: HTMLElement;
   bestLabel: HTMLElement;
   clearOverlay: HTMLElement;
+  confetti: HTMLElement | null;
 };
 
-const GRID_SIZES = [4, 5, 6] as const;
+const GRID_SIZES = [3, 4, 5] as const;
+
+const CONFETTI_COLORS = ['#ff69b4', '#e05cc8', '#ff8ab0', '#ffd166', '#7ad7f0', '#c792ea'];
+
+function clearConfetti(refs: Refs): void {
+  if (refs.confetti) {
+    refs.confetti.innerHTML = '';
+  }
+}
+
+function launchConfetti(refs: Refs): void {
+  const layer = refs.confetti;
+  if (!layer) {
+    return;
+  }
+
+  layer.innerHTML = '';
+  const pieceCount = 80;
+
+  for (let index = 0; index < pieceCount; index += 1) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.background = CONFETTI_COLORS[index % CONFETTI_COLORS.length];
+    piece.style.setProperty('--fall-delay', `${Math.floor(Math.random() * 400)}ms`);
+    piece.style.setProperty('--fall-duration', `${1400 + Math.floor(Math.random() * 1200)}ms`);
+    piece.style.setProperty('--fall-spin', `${Math.floor(Math.random() * 720) - 360}deg`);
+    const scale = 0.7 + Math.random() * 0.8;
+    piece.style.transform = `scale(${scale})`;
+    layer.appendChild(piece);
+  }
+}
 
 function formatTime(seconds: number): string {
   const safeSeconds = Math.max(0, Math.floor(seconds));
@@ -183,6 +214,7 @@ function finishGame(state: GameState, refs: Refs): void {
   updateBestLabel(state, refs);
   refs.clearOverlay.classList.add('is-visible');
   refs.clearOverlay.querySelector('[data-clear-stats]')!.textContent = `${state.moves}手 / ${formatTime(elapsed)}`;
+  launchConfetti(refs);
 }
 
 function startNewGame(state: GameState, refs: Refs, forceShuffle = true): void {
@@ -193,6 +225,7 @@ function startNewGame(state: GameState, refs: Refs, forceShuffle = true): void {
   state.solved = !forceShuffle;
   refs.clearOverlay.classList.remove('is-visible');
   refs.clearOverlay.querySelector('[data-clear-stats]')!.textContent = '';
+  clearConfetti(refs);
   refs.timerLabel.textContent = '00:00';
   refs.movesLabel.textContent = '0';
   updateBestLabel(state, refs);
@@ -201,13 +234,14 @@ function startNewGame(state: GameState, refs: Refs, forceShuffle = true): void {
 
 function setImage(state: GameState, refs: Refs, image: PuzzleImage): void {
   state.selectedImage = image;
-  state.board = createSolved(state.size);
+  state.board = shuffle(createSolved(state.size), state.size);
   state.moves = 0;
   state.startedAt = null;
-  state.solved = true;
+  state.solved = false;
   stopTimer(state);
   refs.clearOverlay.classList.remove('is-visible');
   refs.clearOverlay.querySelector('[data-clear-stats]')!.textContent = '';
+  clearConfetti(refs);
   refs.timerLabel.textContent = '00:00';
   refs.movesLabel.textContent = '0';
   updateBestLabel(state, refs);
@@ -282,12 +316,29 @@ function renderBoard(state: GameState, refs: Refs): void {
     }
 
     tile.addEventListener('click', () => {
-      if (!canMove(state.board, state.size, position) || state.solved) {
+      if (state.solved) {
         return;
       }
 
-      state.board = move(state.board, state.size, position);
-      state.moves += 1;
+      const blankIndex = state.board.indexOf(0);
+      const blankRow = Math.floor(blankIndex / state.size);
+      const blankCol = blankIndex % state.size;
+      const tileRowIndex = Math.floor(position / state.size);
+      const tileColIndex = position % state.size;
+
+      const sameRow = tileRowIndex === blankRow;
+      const sameCol = tileColIndex === blankCol;
+      if (!sameRow && !sameCol) {
+        return;
+      }
+
+      const distance = sameRow ? Math.abs(tileColIndex - blankCol) : Math.abs(tileRowIndex - blankRow);
+      if (distance < 1) {
+        return;
+      }
+
+      state.board = slideTo(state.board, state.size, position);
+      state.moves += distance;
       startTimer(state, refs);
       renderBoard(state, refs);
       if (isSolved(state.board)) {
@@ -319,6 +370,7 @@ export function startSlidePuzzle(): void {
   const sizeButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-size]')];
   const pickerButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-work-id]')];
   const picker = document.querySelector<HTMLElement>('[data-picker]');
+  const confetti = document.querySelector<HTMLElement>('[data-confetti]');
 
   if (!board || !preview || !clearOverlay || !timerLabel || !movesLabel || !bestLabel || !meta || !shuffleButton || !previewButton || !numbersButton || !picker) {
     return;
@@ -332,6 +384,7 @@ export function startSlidePuzzle(): void {
     movesLabel,
     bestLabel,
     clearOverlay,
+    confetti,
   };
 
   const state = createState(
