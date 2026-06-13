@@ -1,0 +1,23 @@
+{
+  "name": "7-girl-slide-puzzle",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "sync": "node scripts/sync-works.mjs",
+    "prebuild": "node scripts/sync-works.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "happy-dom": "^20.10.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.0.0"
+  }
+}

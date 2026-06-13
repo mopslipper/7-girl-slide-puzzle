@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { works } from '../lib/works';
+---
+
+<Layout title="Slide Puzzle" description="Portfolio theme slide puzzle">
+  <main class="page-shell">
+    <section class="hero card">
+      <div>
+        <p class="eyebrow">mopslipper theme</p>
+        <h1>Slide Puzzle</h1>
+        <p class="lead">
+          ポートフォリオ作品を使って遊べるスライドパズル。4×4 / 5×5 / 6×6 の切替に対応し、
+          クリックとタップで気軽に遊べます。
+        </p>
+      </div>
+      <div class="hero-meta">
+        <span>Astro</span>
+        <span>GitHub Pages</span>
+        <span>jsDelivr</span>
+      </div>
+    </section>
+
+    <section class="layout-grid">
+      <article class="card board-card">
+        <div class="toolbar">
+          <div class="segmented" role="group" aria-label="盤面サイズ">
+            <button type="button" class="chip is-active" data-size="4">4×4</button>
+            <button type="button" class="chip" data-size="5">5×5</button>
+            <button type="button" class="chip" data-size="6">6×6</button>
+          </div>
+
+          <div class="toolbar-actions">
+            <button type="button" class="pill-button" data-shuffle>シャッフル</button>
+            <button type="button" class="pill-button" data-toggle-preview>見本</button>
+            <button type="button" class="pill-button" data-toggle-numbers>番号</button>
+          </div>
+        </div>
+
+        <div class="hud">
+          <div>
+            <span class="hud-label">手数</span>
+            <strong data-moves>0</strong>
+          </div>
+          <div>
+            <span class="hud-label">時間</span>
+            <strong data-timer>00:00</strong>
+          </div>
+          <div>
+            <span class="hud-label">ベスト</span>
+            <strong data-best>--</strong>
+          </div>
+          <div>
+            <span class="hud-label">選択中</span>
+            <strong data-selected-meta>{works[0]?.title ?? 'No image'}</strong>
+          </div>
+        </div>
+
+        <div class="board-stage">
+          <div class="board-frame">
+            <div class="board-preview" data-preview aria-hidden="true"></div>
+            <div class="board" data-board aria-label="スライドパズルの盤面"></div>
+          </div>
+          <div class="clear-overlay" data-clear aria-live="polite">
+            <strong>クリア</strong>
+            <span>手数 / 時間</span>
+            <em data-clear-stats></em>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card picker-card">
+        <div class="picker-head">
+          <div>
+            <p class="eyebrow">image picker</p>
+            <h2>作品から選ぶ</h2>
+          </div>
+          <p class="picker-note">NSFW と動画は除外済み</p>
+        </div>
+
+        <div class="picker-grid" data-picker>
+          {works.map((work, index) => (
+            <button
+              type="button"
+              class={`work-card${index === 0 ? ' is-active' : ''}`}
+              data-work-id={work.id}
+              data-work-title={work.title}
+              data-work-category={work.category}
+              data-work-src={work.src}
+              data-work-thumbnail={work.thumbnail}
+            >
+              <img src={work.thumbnail} alt={work.title} loading="lazy" />
+              <span>{work.title}</span>
+            </button>
+          ))}
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    import { startSlidePuzzle } from '../scripts/game';
+    startSlidePuzzle();
+  </script>
+</Layout>

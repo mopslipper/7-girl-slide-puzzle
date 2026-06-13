@@ -1,0 +1,29 @@
+# Node / Astro
+node_modules/
+dist/
+.astro/
+coverage/
+
+# Cache / logs
+.npm/
+.vite/
+*.log
+*.tmp
+
+# Testing / Python leftovers
+.pytest_cache/
+__pycache__/
+*.py[cod]
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
