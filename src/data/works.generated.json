@@ -916,5 +916,14 @@
     "thumbnail": "/static/img/works/108-flying-angel.jpg",
     "nsfw": false,
     "hidden": false
+  },
+  {
+    "id": 108,
+    "title": "店員さん",
+    "category": "Original",
+    "image_path": "/static/img/works/109-awawa-shop-worker.webp",
+    "thumbnail": "/static/img/works/109-awawa-shop-worker.jpg",
+    "nsfw": false,
+    "hidden": false
   }
 ]
