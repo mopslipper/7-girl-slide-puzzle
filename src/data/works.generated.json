@@ -925,5 +925,14 @@
     "thumbnail": "/static/img/works/109-awawa-shop-worker.jpg",
     "nsfw": false,
     "hidden": false
+  },
+  {
+    "id": 109,
+    "title": "おはようシャツガール",
+    "category": "Original",
+    "image_path": "/static/img/works/109x-shirt-girl.webp",
+    "thumbnail": "/static/img/works/109x-shirt-girl.jpg",
+    "nsfw": false,
+    "hidden": false
   }
 ]
